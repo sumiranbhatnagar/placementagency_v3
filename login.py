@@ -9,12 +9,12 @@ import pandas as pd
 # -------------------------------------------------------
 # PAGE CONFIG (top-level)
 # -------------------------------------------------------
-st.set_page_config(
-    page_title="Placement Agency - Login",
-    page_icon="🔐",
-    layout="centered",
-    initial_sidebar_state="collapsed"
-)
+#st.set_page_config(
+#    page_title="Placement Agency - Login",
+ #   page_icon="🔐",
+  #  layout="centered",
+   # initial_sidebar_state="collapsed"
+#)
 
 # =======================================================
 # GOOGLE SHEETS CONFIG FOR LOGIN
@@ -461,3 +461,4 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
