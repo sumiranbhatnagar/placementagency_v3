@@ -184,140 +184,226 @@ def change_password(username, new_password):
 # LOGIN UI
 # =======================================================
 def render_login():
-    """Render stable login page with Google Sheets authentication"""
-
-    # Custom CSS
-    st.markdown(
-        """
-        <style>
-        /* Prevent layout shift */
-        .stTextInput > div > div > input {
-            transition: none !important;
-        }
-
-        .stTextInput {
-            min-height: 70px;
-        }
-
-        /* Center content */
-        .main .block-container {
-            max-width: 500px;
-            padding-top: 3rem;
-        }
-
-        /* Remove Streamlit branding */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-
-        /* Custom header */
-        .login-header {
-            text-align: center;
-            padding: 2rem 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            color: white;
-            margin-bottom: 2rem;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # Header
-    st.markdown(
-        """
-        <div class="login-header">
-            <h1>🔐 Placement Agency</h1>
-            <p>Management System Login</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # Initialize session state
-    if "login_username" not in st.session_state:
-        st.session_state.login_username = ""
-    if "login_password" not in st.session_state:
-        st.session_state.login_password = ""
-
-    # Login form
+    """Render clean minimal login page"""
+    
+    # ===== LOAD IMAGES AS BASE64 =====
+    bg_base64 = ""
+    logo_base64 = ""
+    
+    if os.path.exists("background.png"):
+        with open("background.png", "rb") as f:
+            bg_base64 = base64.b64encode(f.read()).decode()
+    
+    if os.path.exists("placifylogo.png"):
+        with open("placifylogo.png", "rb") as f:
+            logo_base64 = base64.b64encode(f.read()).decode()
+    
+    # ===== CSS STYLING =====
+    st.markdown(f"""
+    <style>
+    /* ===== GOOGLE FONTS ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+    
+    /* ===== HIDE STREAMLIT DEFAULTS ===== */
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
+    header {{visibility: hidden;}}
+    [data-testid="stSidebar"] {{display: none !important;}}
+    [data-testid="stHeader"] {{display: none !important;}}
+    .stDeployButton {{display: none !important;}}
+    
+    /* ===== BACKGROUND IMAGE (Full Cover) ===== */
+    .stApp {{
+        background-image: url("data:image/png;base64,{bg_base64}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+        font-family: 'Inter', sans-serif;
+    }}
+    
+    /* ===== CENTER CONTENT ===== */
+    .main .block-container {{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem;
+        max-width: 450px !important;
+        margin: 0 auto;
+    }}
+    
+    /* ===== WHITE LOGIN CARD ===== */
+    [data-testid="stForm"] {{
+        background: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 1.8rem 1.8rem 1.5rem 1.8rem !important;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3) !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        border: none !important;
+    }}
+    
+    /* ===== LOGO INSIDE CARD ===== */
+    .logo-box {{
+        text-align: center;
+        margin-bottom: 0.3rem;
+    }}
+    
+    .logo-box img {{
+        width: 120px;
+        height: auto;
+    }}
+    
+    /* ===== LOGIN TITLE (Small, White Font Style) ===== */
+    .login-title-box {{
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+        color: #333333;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.5px;
+    }}
+    
+    /* ===== INPUT LABELS ===== */
+    .stTextInput > label {{
+        font-family: 'Inter', sans-serif !important;
+        color: #444444 !important;
+        font-weight: 500 !important;
+        font-size: 0.85rem !important;
+    }}
+    
+    /* ===== INPUT FIELDS ===== */
+    .stTextInput > div > div > input {{
+        font-family: 'Inter', sans-serif !important;
+        background: #f9f9f9 !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 8px !important;
+        padding: 0.7rem 0.9rem !important;
+        font-size: 0.95rem !important;
+        color: #333333 !important;
+        transition: all 0.2s ease !important;
+    }}
+    
+    .stTextInput > div > div > input::placeholder {{
+        color: #aaaaaa !important;
+        font-size: 0.9rem !important;
+    }}
+    
+    .stTextInput > div > div > input:focus {{
+        border-color: #7c3aed !important;
+        box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1) !important;
+        background: #ffffff !important;
+    }}
+    
+    /* ===== CHECKBOX ===== */
+    .stCheckbox {{
+        margin: 0.3rem 0 !important;
+    }}
+    
+    .stCheckbox label {{
+        font-family: 'Inter', sans-serif !important;
+        color: #666666 !important;
+        font-size: 0.8rem !important;
+    }}
+    
+    /* ===== LOGIN BUTTON ===== */
+    .stFormSubmitButton > button {{
+        font-family: 'Montserrat', sans-serif !important;
+        width: 100% !important;
+        background: #4a3470 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        padding: 0.7rem 1.2rem !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.8px !important;
+        text-transform: uppercase !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 3px 10px rgba(74, 52, 112, 0.25) !important;
+        margin-top: 0.8rem !important;
+    }}
+    
+    .stFormSubmitButton > button:hover {{
+        background: #5d4389 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 5px 15px rgba(74, 52, 112, 0.35) !important;
+    }}
+    
+    /* ===== ALERTS ===== */
+    .stAlert {{
+        font-family: 'Inter', sans-serif !important;
+        border-radius: 8px !important;
+        font-size: 0.85rem !important;
+    }}
+    
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # ===== LOGIN FORM WITH LOGO & TITLE INSIDE =====
     with st.form("login_form", clear_on_submit=False):
-        st.markdown("### 🔑 Enter Your Credentials")
-
+        
+        # Logo inside card
+        if logo_base64:
+            st.markdown(f'''
+            <div class="logo-box">
+                <img src="data:image/png;base64,{logo_base64}" alt="Placify">
+            </div>
+            ''', unsafe_allow_html=True)
+        
+        # Title inside card
+        st.markdown('<div class="login-title-box">Login</div>', unsafe_allow_html=True)
+        
         username = st.text_input(
             "Username",
-            value=st.session_state.login_username,
-            key="username_input",
-            placeholder="Enter your username",
-            autocomplete="username",
+            placeholder="Username",
+            key="username_input"
         )
-
+        
         password = st.text_input(
             "Password",
-            value=st.session_state.login_password,
             type="password",
-            key="password_input",
-            placeholder="Enter your password",
-            autocomplete="current-password",
+            placeholder="Password",
+            key="password_input"
         )
-
-        # Remember me checkbox (abhi use nahi kar rahe)
+        
         remember_me = st.checkbox("Remember me", value=False)
-
-        # Login button
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            submitted = st.form_submit_button("🔓 Login", use_container_width=True)
-
-        # Process login
+        
+        submitted = st.form_submit_button("LOGIN", use_container_width=True)
+        
         if submitted:
             if not username or not password:
-                st.error("❌ Please enter both username and password")
+                st.error("❌ Please enter both fields")
             else:
-                with st.spinner("🔍 Verifying credentials..."):
+                with st.spinner("Verifying..."):
                     user_data = verify_credentials(username, password)
-
+                    
                     if user_data:
-                        # Check if user is active
                         if user_data.get("status", "Active").lower() != "active":
-                            st.error(
-                                "❌ Your account has been deactivated. Contact admin."
-                            )
+                            st.error("❌ Account deactivated")
                             log_login_activity(username, "Failed - Deactivated")
                         else:
-                            # Successful login
                             st.session_state.logged_in = True
                             st.session_state.username = user_data["username"]
                             st.session_state.role = user_data["role"]
                             st.session_state.full_name = user_data["full_name"]
                             st.session_state.email = user_data["email"]
-
-                            # Log activity
+                            
                             log_login_activity(username, "Success")
-
-                            st.success(f"✅ Welcome, {user_data['full_name']}!")
-                            st.balloons()
-
-                            # Clear form
-                            st.session_state.login_username = ""
-                            st.session_state.login_password = ""
-
+                            st.success(f"✅ Welcome!")
                             st.rerun()
                     else:
-                        st.error("❌ Invalid username or password")
-                        log_login_activity(username, "Failed - Invalid Credentials")
+                        st.error("❌ Invalid credentials")
+                        log_login_activity(username, "Failed")
 
-    # Footer
-    st.markdown("---")
-    st.markdown(
-        """
-        <div style='text-align: center; color: gray; font-size: 12px;'>
-            <p>📧 Need help? Contact: admin@placementagency.com</p>
-            <p>© 2025 Placement Agency. All rights reserved.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+
+
+
 
 
 # =======================================================
@@ -462,3 +548,4 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
