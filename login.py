@@ -4,6 +4,8 @@ from google.oauth2.service_account import Credentials
 import hashlib
 from datetime import datetime
 import pandas as pd
+import base64      # ← ADD THIS
+import os 
 
 # -------------------------------------------------------
 # PAGE CONFIG (top-level)
@@ -548,4 +550,5 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
 
