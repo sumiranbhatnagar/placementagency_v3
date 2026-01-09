@@ -19,18 +19,29 @@ SCOPE = [
 SPREADSHEET_ID = "1rpuXdpfwjy0BQcaZcn0Acbh-Se6L3PvyNGiNu4NLcPA"
 
 
+#def get_sheets_client():
+  #  """Get authenticated Google Sheets client"""
 def get_sheets_client():
     """Get authenticated Google Sheets client"""
     try:
-        creds = Credentials.from_service_account_file(
-            'credentials.json',
-            scopes=SCOPE
-        )
+        if os.path.exists('credentials.json'):
+            # Local development
+            creds = Credentials.from_service_account_file(
+                'credentials.json',
+                scopes=SCOPE
+            )
+        else:
+            # Streamlit Cloud - use secrets
+            creds = Credentials.from_service_account_info(
+                st.secrets["gcp_service_account"],
+                scopes=SCOPE
+            )
         client = gspread.authorize(creds)
         return client
     except Exception as e:
         logger.error(f"Authentication failed: {e}")
         return None
+   
 
 
 def find_column_index(headers, column_name):
@@ -194,4 +205,5 @@ def sync_all_statuses(candidate_id, company_id, job_title, interview_status, res
         
     except Exception as e:
         logger.error(f"Error in sync_all_statuses: {e}")
+
         return False
