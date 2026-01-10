@@ -188,19 +188,8 @@ def change_password(username, new_password):
 def render_login():
     """Render clean minimal login page"""
     
-    # # ===== LOAD IMAGES AS BASE64 =====
-    # bg_base64 = ""
-    # logo_base64 = ""
-    
-    # if os.path.exists("background.png"):
-    #     with open("background.png", "rb") as f:
-    #         bg_base64 = base64.b64encode(f.read()).decode()
-    
-    # if os.path.exists("placifylogo.png"):
-    #     with open("placifylogo.png", "rb") as f:
-    #         logo_base64 = base64.b64encode(f.read()).decode()
-   bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/background.png"
-   logo_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/placifylogo.png"
+    bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/background.png"
+    logo_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/placifylogo.png"
     
     # ===== CSS STYLING =====
     st.markdown(f"""
@@ -216,9 +205,9 @@ def render_login():
     [data-testid="stHeader"] {{display: none !important;}}
     .stDeployButton {{display: none !important;}}
     
-    /* ===== BACKGROUND IMAGE (Full Cover) ===== */
+    /* ===== BACKGROUND IMAGE ===== */
     .stApp {{
-        background-image: url("data:image/png;base64,{bg_base64}");
+        background-image: url("{bg_url}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -261,7 +250,7 @@ def render_login():
         height: auto;
     }}
     
-    /* ===== LOGIN TITLE (Small, White Font Style) ===== */
+    /* ===== LOGIN TITLE ===== */
     .login-title-box {{
         font-family: 'Montserrat', sans-serif;
         text-align: center;
@@ -349,16 +338,15 @@ def render_login():
     </style>
     """, unsafe_allow_html=True)
     
-    # ===== LOGIN FORM WITH LOGO & TITLE INSIDE =====
+    # ===== LOGIN FORM =====
     with st.form("login_form", clear_on_submit=False):
         
         # Logo inside card
-        if logo_base64:
-            st.markdown(f'''
-            <div class="logo-box">
-                <img src="data:image/png;base64,{logo_base64}" alt="Placify">
-            </div>
-            ''', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div class="logo-box">
+            <img src="{logo_url}" alt="Placify">
+        </div>
+        ''', unsafe_allow_html=True)
         
         # Title inside card
         st.markdown('<div class="login-title-box">Login</div>', unsafe_allow_html=True)
@@ -404,10 +392,6 @@ def render_login():
                     else:
                         st.error("❌ Invalid credentials")
                         log_login_activity(username, "Failed")
-
-
-
-
 
 
 # =======================================================
@@ -552,6 +536,7 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
 
 
 
