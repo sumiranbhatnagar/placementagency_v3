@@ -188,17 +188,19 @@ def change_password(username, new_password):
 def render_login():
     """Render clean minimal login page"""
     
-    # ===== LOAD IMAGES AS BASE64 =====
-    bg_base64 = ""
-    logo_base64 = ""
+    # # ===== LOAD IMAGES AS BASE64 =====
+    # bg_base64 = ""
+    # logo_base64 = ""
     
-    if os.path.exists("background.png"):
-        with open("background.png", "rb") as f:
-            bg_base64 = base64.b64encode(f.read()).decode()
+    # if os.path.exists("background.png"):
+    #     with open("background.png", "rb") as f:
+    #         bg_base64 = base64.b64encode(f.read()).decode()
     
-    if os.path.exists("placifylogo.png"):
-        with open("placifylogo.png", "rb") as f:
-            logo_base64 = base64.b64encode(f.read()).decode()
+    # if os.path.exists("placifylogo.png"):
+    #     with open("placifylogo.png", "rb") as f:
+    #         logo_base64 = base64.b64encode(f.read()).decode()
+   bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/background.png"
+   logo_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/placifylogo.png"
     
     # ===== CSS STYLING =====
     st.markdown(f"""
@@ -550,5 +552,6 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
 
 
