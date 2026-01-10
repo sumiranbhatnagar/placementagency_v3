@@ -188,16 +188,13 @@ def change_password(username, new_password):
 def render_login():
     """Render clean minimal login page"""
     
-    bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/Background.png"
     logo_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/placifylogo.png"
+    bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/background.png"
     
-    # ===== CSS STYLING =====
     st.markdown(f"""
     <style>
-    /* ===== GOOGLE FONTS ===== */
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
     
-    /* ===== HIDE STREAMLIT DEFAULTS ===== */
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
     header {{visibility: hidden;}}
@@ -205,7 +202,6 @@ def render_login():
     [data-testid="stHeader"] {{display: none !important;}}
     .stDeployButton {{display: none !important;}}
     
-    /* ===== BACKGROUND IMAGE ===== */
     .stApp {{
         background-image: url("{bg_url}");
         background-size: cover;
@@ -216,7 +212,6 @@ def render_login():
         font-family: 'Inter', sans-serif;
     }}
     
-    /* ===== CENTER CONTENT ===== */
     .main .block-container {{
         display: flex;
         flex-direction: column;
@@ -224,44 +219,41 @@ def render_login():
         align-items: center;
         min-height: 100vh;
         padding: 1rem;
-        max-width: 450px !important;
+        max-width: 500px !important;
         margin: 0 auto;
     }}
     
-    /* ===== WHITE LOGIN CARD ===== */
+    /* ===== SMALLER & WIDER CARD ===== */
     [data-testid="stForm"] {{
         background: #ffffff !important;
         border-radius: 16px !important;
-        padding: 1.8rem 1.8rem 1.5rem 1.8rem !important;
+        padding: 1.5rem 2rem !important;
         box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3) !important;
-        max-width: 340px !important;
+        width: 380px !important;
+        max-width: 90% !important;
         margin: 0 auto !important;
         border: none !important;
     }}
     
-    /* ===== LOGO INSIDE CARD ===== */
     .logo-box {{
         text-align: center;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.2rem;
     }}
     
     .logo-box img {{
-        width: 120px;
+        width: 110px;
         height: auto;
     }}
     
-    /* ===== LOGIN TITLE ===== */
     .login-title-box {{
         font-family: 'Montserrat', sans-serif;
         text-align: center;
         color: #333333;
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 500;
-        margin-bottom: 1.2rem;
-        letter-spacing: 0.5px;
+        margin-bottom: 1rem;
     }}
     
-    /* ===== INPUT LABELS ===== */
     .stTextInput > label {{
         font-family: 'Inter', sans-serif !important;
         color: #444444 !important;
@@ -269,32 +261,19 @@ def render_login():
         font-size: 0.85rem !important;
     }}
     
-    /* ===== INPUT FIELDS ===== */
     .stTextInput > div > div > input {{
         font-family: 'Inter', sans-serif !important;
         background: #f9f9f9 !important;
         border: 1px solid #e0e0e0 !important;
         border-radius: 8px !important;
-        padding: 0.7rem 0.9rem !important;
-        font-size: 0.95rem !important;
-        color: #333333 !important;
-        transition: all 0.2s ease !important;
-    }}
-    
-    .stTextInput > div > div > input::placeholder {{
-        color: #aaaaaa !important;
+        padding: 0.6rem 0.9rem !important;
         font-size: 0.9rem !important;
+        color: #333333 !important;
     }}
     
     .stTextInput > div > div > input:focus {{
         border-color: #7c3aed !important;
         box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1) !important;
-        background: #ffffff !important;
-    }}
-    
-    /* ===== CHECKBOX ===== */
-    .stCheckbox {{
-        margin: 0.3rem 0 !important;
     }}
     
     .stCheckbox label {{
@@ -303,7 +282,6 @@ def render_login():
         font-size: 0.8rem !important;
     }}
     
-    /* ===== LOGIN BUTTON ===== */
     .stFormSubmitButton > button {{
         font-family: 'Montserrat', sans-serif !important;
         width: 100% !important;
@@ -311,59 +289,37 @@ def render_login():
         color: white !important;
         border: none !important;
         border-radius: 20px !important;
-        padding: 0.7rem 1.2rem !important;
-        font-size: 0.9rem !important;
+        padding: 0.6rem 1rem !important;
+        font-size: 0.85rem !important;
         font-weight: 600 !important;
         letter-spacing: 0.8px !important;
         text-transform: uppercase !important;
-        cursor: pointer !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 3px 10px rgba(74, 52, 112, 0.25) !important;
-        margin-top: 0.8rem !important;
+        margin-top: 0.5rem !important;
     }}
     
     .stFormSubmitButton > button:hover {{
         background: #5d4389 !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 5px 15px rgba(74, 52, 112, 0.35) !important;
     }}
     
-    /* ===== ALERTS ===== */
     .stAlert {{
-        font-family: 'Inter', sans-serif !important;
         border-radius: 8px !important;
-        font-size: 0.85rem !important;
+        font-size: 0.8rem !important;
     }}
-    
     </style>
     """, unsafe_allow_html=True)
     
-    # ===== LOGIN FORM =====
     with st.form("login_form", clear_on_submit=False):
         
-        # Logo inside card
         st.markdown(f'''
         <div class="logo-box">
             <img src="{logo_url}" alt="Placify">
         </div>
         ''', unsafe_allow_html=True)
         
-        # Title inside card
         st.markdown('<div class="login-title-box">Login</div>', unsafe_allow_html=True)
         
-        username = st.text_input(
-            "Username",
-            placeholder="Username",
-            key="username_input"
-        )
-        
-        password = st.text_input(
-            "Password",
-            type="password",
-            placeholder="Password",
-            key="password_input"
-        )
-        
+        username = st.text_input("Username", placeholder="Username", key="username_input")
+        password = st.text_input("Password", type="password", placeholder="Password", key="password_input")
         remember_me = st.checkbox("Remember me", value=False)
         
         submitted = st.form_submit_button("LOGIN", use_container_width=True)
@@ -392,8 +348,19 @@ def render_login():
                     else:
                         st.error("❌ Invalid credentials")
                         log_login_activity(username, "Failed")
+# ```
 
+# ---
 
+## 📐 **New Card Size:**
+# ```
+# Before:          After:
+# ┌──────────┐     ┌────────────────┐
+# │          │     │                │
+# │  340px   │ →   │    380px       │
+# │  tall    │     │    shorter     │
+# │          │     │                │
+# └──────────┘     └────────────────┘
 # =======================================================
 # CHANGE PASSWORD UI
 # =======================================================
@@ -536,6 +503,7 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
 
 
 
