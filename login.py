@@ -189,7 +189,7 @@ def render_login():
     """Render clean minimal login page"""
     
     logo_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/placifylogo.png"
-    bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/background.png"
+    bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/Background.png"
     
     st.markdown(f"""
     <style>
@@ -503,6 +503,7 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
 
 
 
