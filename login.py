@@ -231,7 +231,7 @@ def render_login():
         box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3) !important;
         width: 380px !important;
         max-width: 90% !important;
-        margin: 80px auto 0 auto !important;
+        margin: 100px auto 0 auto !important;
         border: none !important;
     }}
     
@@ -503,6 +503,7 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
 
 
 
