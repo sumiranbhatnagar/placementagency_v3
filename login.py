@@ -188,7 +188,7 @@ def change_password(username, new_password):
 def render_login():
     """Render clean minimal login page"""
     
-    bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/background.png"
+    bg_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/Background.png"
     logo_url = "https://raw.githubusercontent.com/sumiranbhatnagar/placementagency_v3/main/placifylogo.png"
     
     # ===== CSS STYLING =====
@@ -536,6 +536,7 @@ def logout():
 # =======================================================
 if __name__ == "__main__":
     render_login()
+
 
 
 
